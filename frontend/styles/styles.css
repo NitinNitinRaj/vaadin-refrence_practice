@@ -1,0 +1,17 @@
+.header {
+    background-color: red;
+}
+
+.footer {
+    background-color: yellow;
+}
+
+.navigation {
+    background-color: rgb(171, 234, 171);
+    color: white;
+    flex-shrink: 0;
+}
+
+.content {
+    background-color: blue;
+}

@@ -2,6 +2,8 @@ package com.nr.vaadinpractice.view;
 
 import com.nr.vaadinpractice.view.binding.FormBinding;
 import com.nr.vaadinpractice.view.form.Form;
+import com.nr.vaadinpractice.view.grid.gridView.PersonGrid;
+import com.nr.vaadinpractice.view.gridFiltering.FilteringDataProvider;
 import com.nr.vaadinpractice.view.layout.Layout;
 import com.nr.vaadinpractice.view.validation.FormValidation;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -37,6 +39,23 @@ public class MainView extends AppLayout {
       new RouterLink(FormBinding.TITLE, FormBinding.class)
     );
 
-    addToDrawer(layout, layoutTab, formValidation, formBinding);
+    Tab grid = new Tab(
+      new Span("5) "),
+      new RouterLink(PersonGrid.TITLE, PersonGrid.class)
+    );
+
+    Tab gridFiltering = new Tab(
+      new Span("6) "),
+      new RouterLink(FilteringDataProvider.TITLE, FilteringDataProvider.class)
+    );
+
+    addToDrawer(
+      layout,
+      layoutTab,
+      formValidation,
+      formBinding,
+      grid,
+      gridFiltering
+    );
   }
 }

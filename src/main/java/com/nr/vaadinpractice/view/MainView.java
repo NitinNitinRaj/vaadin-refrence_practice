@@ -4,6 +4,7 @@ import com.nr.vaadinpractice.view.binding.FormBinding;
 import com.nr.vaadinpractice.view.form.Form;
 import com.nr.vaadinpractice.view.grid.gridView.PersonGrid;
 import com.nr.vaadinpractice.view.gridFiltering.FilteringDataProvider;
+import com.nr.vaadinpractice.view.lasyDataFetching.LazyDataFetching;
 import com.nr.vaadinpractice.view.layout.Layout;
 import com.nr.vaadinpractice.view.validation.FormValidation;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -49,13 +50,19 @@ public class MainView extends AppLayout {
       new RouterLink(FilteringDataProvider.TITLE, FilteringDataProvider.class)
     );
 
+    Tab lazyDataFetching = new Tab(
+      new Span("7) "),
+      new RouterLink(LazyDataFetching.TITLE, LazyDataFetching.class)
+    );
+
     addToDrawer(
       layout,
       layoutTab,
       formValidation,
       formBinding,
       grid,
-      gridFiltering
+      gridFiltering,
+      lazyDataFetching
     );
   }
 }

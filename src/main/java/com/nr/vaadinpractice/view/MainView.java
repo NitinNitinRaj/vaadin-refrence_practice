@@ -6,6 +6,8 @@ import com.nr.vaadinpractice.view.grid.gridView.PersonGrid;
 import com.nr.vaadinpractice.view.gridFiltering.FilteringDataProvider;
 import com.nr.vaadinpractice.view.lasyDataFetching.LazyDataFetching;
 import com.nr.vaadinpractice.view.layout.Layout;
+import com.nr.vaadinpractice.view.routing.HomeView;
+import com.nr.vaadinpractice.view.routing.LotteryView;
 import com.nr.vaadinpractice.view.validation.FormValidation;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -55,6 +57,16 @@ public class MainView extends AppLayout {
       new RouterLink(LazyDataFetching.TITLE, LazyDataFetching.class)
     );
 
+    Tab routingView = new Tab(
+      new Span("8) "),
+      new RouterLink(HomeView.TITLE, HomeView.class)
+    );
+
+    Tab lotteryView = new Tab(
+      new Span("9) "),
+      new RouterLink(LotteryView.TITLE, LotteryView.class)
+    );
+
     addToDrawer(
       layout,
       layoutTab,
@@ -62,7 +74,9 @@ public class MainView extends AppLayout {
       formBinding,
       grid,
       gridFiltering,
-      lazyDataFetching
+      lazyDataFetching,
+      routingView,
+      lotteryView
     );
   }
 }

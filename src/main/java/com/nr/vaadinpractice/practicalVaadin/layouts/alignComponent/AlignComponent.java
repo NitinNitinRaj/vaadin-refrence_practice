@@ -5,7 +5,6 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -21,7 +20,7 @@ public class AlignComponent extends Composite<Component> {
     Button button1 = new Button("START");
     Button button2 = new Button("CENTER");
     Button button3 = new Button("END");
-    Button button4 = new Button("Button 4");
+    // Button button4 = new Button("Button 4");
     var buttons = new HorizontalLayout(button1, button2, button3);
     buttons.setHeightFull();
     buttons.getStyle().set("border", "1px solid black");

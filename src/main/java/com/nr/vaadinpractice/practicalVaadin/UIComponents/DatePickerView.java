@@ -1,6 +1,5 @@
 package com.nr.vaadinpractice.practicalVaadin.UIComponents;
 
-import com.nr.vaadinpractice.view.validation.Data;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.datepicker.DatePicker;

@@ -7,7 +7,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import lombok.val;
 
 @Route(NumericInputView.ROUTE)
 @PageTitle(NumericInputView.TITLE)

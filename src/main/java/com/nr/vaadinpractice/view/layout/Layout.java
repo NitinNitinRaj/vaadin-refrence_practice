@@ -11,10 +11,8 @@ import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
 
 @Route(value = Layout.ROUTE, layout = MainView.class)
-@RouteAlias(value = "", layout = MainView.class)
 public class Layout extends VerticalLayout implements HasUrlParameter<String> {
 
   public static final String TITLE = "Layout";

@@ -12,19 +12,29 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.PropertyId;
 import com.vaadin.flow.function.SerializableRunnable;
 import java.util.Set;
 
-public class ProductForm extends Composite<Component> {
+public class AutoBindingProductForm extends Composite<Component> {
 
   private final SerializableRunnable saveListener;
   private Product product;
 
+  @PropertyId("name")
   private TextField name = new TextField("Name");
-  private ComboBox<Manufacturer> manufacturer = new ComboBox<>("Manufacturer");
-  private Checkbox unavailable = new Checkbox("UnAvailable");
 
-  public ProductForm(
+  @PropertyId("manufacturer")
+  private ComboBox<Manufacturer> manufacturer = new ComboBox<>("Manufacturer");
+
+  @PropertyId("available")
+  private Checkbox available = new Checkbox("available");
+
+  private TextField phoneNumber = new TextField("Manufacturer phone number");
+
+  private TextField email = new TextField("Manufacturer email");
+
+  public AutoBindingProductForm(
     Product product,
     Set<Manufacturer> manufacturers,
     SerializableRunnable saveListener
@@ -34,18 +44,18 @@ public class ProductForm extends Composite<Component> {
     manufacturer.setItems(manufacturers);
     manufacturer.setItemLabelGenerator(Manufacturer::getName);
 
-    Binder<Product> binder = new Binder<>();
-    binder.bind(name, Product::getName, Product::setName);
-    binder.bind(
-      manufacturer,
-      Product::getManufacturer,
-      Product::setManufacturer
-    );
-    binder.bind(
-      unavailable,
-      prod -> !prod.isAvailable(),
-      (prod, booleanvalue) -> prod.setAvailable(!booleanvalue)
-    );
+    Binder<Product> binder = new Binder<>(Product.class);
+    binder.bindInstanceFields(this);
+
+    if (product.getName() == null) {
+      phoneNumber.setVisible(false);
+      email.setVisible(false);
+    } else {
+      manufacturer.setEnabled(false);
+      binder.bind(phoneNumber, "manufacturer.phoneNumber");
+      binder.bind(email, "manufacturer.email");
+    }
+
     binder.setBean(product);
   }
 
@@ -54,8 +64,10 @@ public class ProductForm extends Composite<Component> {
     return new VerticalLayout(
       new H1("Product"),
       name,
+      available,
       manufacturer,
-      unavailable,
+      phoneNumber,
+      email,
       new Button("Save", VaadinIcon.CHECK.create(), event -> saveListener.run())
     );
   }

@@ -82,7 +82,7 @@ public class ProductManagementView extends Composite<Component> {
     dialog.setModal(true);
     dialog.open();
     dialog.add(
-      new ProductForm(
+      new AutoBindingProductForm(
         product,
         manufacturers,
         () -> {

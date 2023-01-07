@@ -1,4 +1,4 @@
-package com.nr.vaadinpractice.practicalVaadin.dataBinding.manualBinding.entity;
+package com.nr.vaadinpractice.practicalVaadin.dataBinding.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Product {
+public class Manufacturer {
 
   private String name;
-  private boolean available = true;
-  private Manufacturer manufacturer;
+  private String phoneNumber;
+  private String email;
 }

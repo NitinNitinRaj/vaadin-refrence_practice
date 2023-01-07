@@ -1,7 +1,7 @@
-package com.nr.vaadinpractice.practicalVaadin.dataBinding.manualBinding.view;
+package com.nr.vaadinpractice.practicalVaadin.dataBinding.view;
 
-import com.nr.vaadinpractice.practicalVaadin.dataBinding.manualBinding.entity.Manufacturer;
-import com.nr.vaadinpractice.practicalVaadin.dataBinding.manualBinding.entity.Product;
+import com.nr.vaadinpractice.practicalVaadin.dataBinding.entity.Manufacturer;
+import com.nr.vaadinpractice.practicalVaadin.dataBinding.entity.Product;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;

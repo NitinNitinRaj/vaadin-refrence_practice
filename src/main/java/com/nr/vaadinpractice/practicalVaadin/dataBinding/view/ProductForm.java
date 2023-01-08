@@ -1,5 +1,6 @@
 package com.nr.vaadinpractice.practicalVaadin.dataBinding.view;
 
+import com.nr.vaadinpractice.practicalVaadin.dataBinding.converter.StringToCodeConverter;
 import com.nr.vaadinpractice.practicalVaadin.dataBinding.entity.Manufacturer;
 import com.nr.vaadinpractice.practicalVaadin.dataBinding.entity.Product;
 import com.vaadin.flow.component.Component;
@@ -9,9 +10,13 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.function.SerializableRunnable;
 import java.util.Set;
 
@@ -21,8 +26,12 @@ public class ProductForm extends Composite<Component> {
   private Product product;
 
   private TextField name = new TextField("Name");
+  private TextField code = new TextField("Code");
   private ComboBox<Manufacturer> manufacturer = new ComboBox<>("Manufacturer");
-  private Checkbox unavailable = new Checkbox("UnAvailable");
+  private Checkbox available = new Checkbox("Available");
+  private TextField phoneNumber = new TextField("Manufacturer phone number");
+  private EmailField email = new EmailField("Manufacturer email");
+  private Binder<Product> binder = new Binder<>(Product.class);
 
   public ProductForm(
     Product product,
@@ -34,18 +43,36 @@ public class ProductForm extends Composite<Component> {
     manufacturer.setItems(manufacturers);
     manufacturer.setItemLabelGenerator(Manufacturer::getName);
 
-    Binder<Product> binder = new Binder<>();
-    binder.bind(name, Product::getName, Product::setName);
-    binder.bind(
-      manufacturer,
-      Product::getManufacturer,
-      Product::setManufacturer
-    );
-    binder.bind(
-      unavailable,
-      prod -> !prod.isAvailable(),
-      (prod, booleanvalue) -> prod.setAvailable(!booleanvalue)
-    );
+    binder.bind(available, Product::isAvailable, Product::setAvailable);
+    binder
+      .forField(name)
+      .asRequired("The name of the product is required")
+      .bind(Product::getName, Product::setName);
+
+    binder
+      .forField(code)
+      .asRequired("Please introduce a code")
+      .withConverter(new StringToCodeConverter())
+      .bind(Product::getCode, Product::setCode);
+
+    binder.bind(manufacturer, "manufacturer");
+
+    if (product.getName() == null) {
+      phoneNumber.setVisible(false);
+      email.setVisible(false);
+    } else {
+      manufacturer.setEnabled(false);
+
+      binder
+        .forField(phoneNumber)
+        .withValidator(value -> value.length() > 7, "Invalid phone number")
+        .bind("manufacturer.phoneNumber");
+      binder
+        .forField(email)
+        .withValidator(new EmailValidator("Enter valid email"))
+        .bind("manufacturer.email");
+    }
+
     binder.setBean(product);
   }
 
@@ -55,8 +82,25 @@ public class ProductForm extends Composite<Component> {
       new H1("Product"),
       name,
       manufacturer,
-      unavailable,
-      new Button("Save", VaadinIcon.CHECK.create(), event -> saveListener.run())
+      phoneNumber,
+      email,
+      code,
+      available,
+      new Button(
+        "Save",
+        VaadinIcon.CHECK.create(),
+        event -> {
+          binder.validate();
+          if (binder.isValid()) {
+            saveListener.run();
+          } else {
+            Notification notification = new Notification();
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            notification.add("Please fix the error");
+            notification.open();
+          }
+        }
+      )
     );
   }
 }

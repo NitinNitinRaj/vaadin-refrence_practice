@@ -1,7 +1,9 @@
 package com.nr.vaadinpractice.practicalVaadin.dataBinding.view;
 
+import com.nr.vaadinpractice.practicalVaadin.dataBinding.entity.Code;
 import com.nr.vaadinpractice.practicalVaadin.dataBinding.entity.Manufacturer;
 import com.nr.vaadinpractice.practicalVaadin.dataBinding.entity.Product;
+import com.nr.vaadinpractice.practicalVaadin.dataBinding.entity.Type;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
@@ -38,7 +40,8 @@ public class ProductManagementView extends Composite<Component> {
       new Product(
         "Pepsi",
         true,
-        new Manufacturer("PepsiCo", "555111", "pepsi@example.com")
+        new Manufacturer("PepsiCo", "555111", "pepsi@example.com"),
+        new Code(Type.DRINK, "ASD")
       )
     );
   }

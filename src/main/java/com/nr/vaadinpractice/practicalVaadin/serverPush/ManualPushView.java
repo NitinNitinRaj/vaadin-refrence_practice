@@ -14,11 +14,10 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.communication.PushMode;
 
-@Push(value = PushMode.MANUAL)
+// @Push(value = PushMode.MANUAL)
 @Route("manual-push")
 public class ManualPushView
-  extends Composite<Component>
-  implements AppShellConfigurator {
+  extends Composite<Component> /*  implements AppShellConfigurator */{
 
   private VerticalLayout layout;
   private ProgressBar progressBar = new ProgressBar(0, 10);

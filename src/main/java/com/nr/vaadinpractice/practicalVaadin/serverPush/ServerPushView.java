@@ -10,21 +10,34 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.router.Route;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import org.apache.catalina.Executor;
+import org.springframework.scheduling.annotation.Scheduled;
 
-// @Push
-@Route("with-server-push")
+//@Push
+//@Route("with-server-push")
 public class ServerPushView
-  extends Composite<Component> /*implements AppShellConfigurator*/{
+  extends Composite<Component>
+  implements AppShellConfigurator, ServletContextListener {
+
+  private static ScheduledExecutorService executorService;
 
   private VerticalLayout layout;
   Button button = new Button("Run long task");
+
+  public static ScheduledExecutorService getExecutorService() {
+    return executorService;
+  }
 
   @Override
   protected Component initContent() {
     button.addClickListener(event -> {
       runLongTask();
     });
-    button.setDisableOnClick(true);
+    // button.setDisableOnClick(true);
     layout =
       new VerticalLayout(button, new Button("Does this work?", e -> addText()));
     return layout;
@@ -33,19 +46,30 @@ public class ServerPushView
   private void runLongTask() {
     Notification.show("Running the task...");
     var ui = UI.getCurrent();
-    new Thread(() -> {
-      try {
-        Thread.sleep(5000);
-        ui.access(() -> {
-          button.setEnabled(true);
-          Notification.show("Task completed.");
-        });
-      } catch (InterruptedException ignored) {}
-    })
-      .start();
+    ServerPushView
+      .getExecutorService()
+      .execute(() -> {
+        try {
+          Thread.sleep(5000);
+          ui.access(() -> {
+            button.setEnabled(true);
+            Notification.show("Task completed.");
+          });
+        } catch (InterruptedException ignored) {}
+      });
   }
 
   private void addText() {
     layout.add(new Paragraph("It works!"));
+  }
+
+  @Override
+  public void contextInitialized(ServletContextEvent event) {
+    executorService = Executors.newScheduledThreadPool(3);
+  }
+
+  @Override
+  public void contextDestroyed(ServletContextEvent sce) {
+    executorService.shutdown();
   }
 }

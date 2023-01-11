@@ -1,0 +1,9 @@
+h1 {
+    margin-top: 0.15em;
+    margin-bottom: 0;
+}
+
+html {
+    --lumo-font-family: "Courier New", Courier, monospace;
+    --lumo-border-radius: 0px;
+}
